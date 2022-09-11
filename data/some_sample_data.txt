@@ -1,0 +1,48 @@
+
+"fields":["des","orbit_id","jd","cd","dist","dist_min","dist_max","v_rel","v_inf","t_sigma_f","h"]
+
+["2015 CL","7","2451544.575085225","2000-Jan-01 01:48","0.144929602021186","0.144894711605919","0.144964493657327","12.0338907050642","12.0323628689746","00:19","25.3"]
+
+["2002 PB","22","2451544.656861311","2000-Jan-01 03:46","0.499221505520251","0.499198890779505","0.499244120869353","29.3862908945476","29.3861092695424","< 00:01","20.5"]
+
+
+from extract.py
+load_neos('neos.csv') => neo_list:
+[
+NearEarthObject(designation='2019 M2', name='ATLAS', diameter=nan, hazardous=False), 
+NearEarthObject(designation='2019 Y3', name='Catalina', diameter=nan, hazardous=False), 
+NearEarthObject(designation='2019 Y4-D', name='ATLAS', diameter=nan, hazardous=False), 
+NearEarthObject(designation='2020 G1', name='Pimentel', diameter=nan, hazardous=False), 
+NearEarthObject(designation='2020 M3', name='ATLAS', diameter=nan, hazardous=False), 
+NearEarthObject(designation='2020 P4-B', name=None, diameter=nan, hazardous=False), 
+NearEarthObject(designation='2020 P4-C', name=None, diameter=nan, hazardous=False)
+]
+
+
+approaches_lst[206785] == 
+CloseApproach(designation='2018 PU21'time='2009-09-04 13:55', distance=0.36, velocity=8.39, neo=None)
+
+load_approaces('cad.json') => approaches_lst:
+
+[
+CloseApproach(time='2099-12-28 09:04', distance=0.22, velocity=14.36, neo=None), 
+CloseApproach(time='2099-12-28 14:11', distance=0.15, velocity=6.75, neo=None), 
+CloseApproach(time='2099-12-28 14:34', distance=0.42, velocity=38.56, neo=None), 
+CloseApproach(time='2099-12-28 16:53', distance=0.20, velocity=10.55, neo=None), 
+CloseApproach(time='2099-12-28 19:11', distance=0.34, velocity=12.22, neo=None), 
+CloseApproach(time='2099-12-28 20:25', distance=0.25, velocity=23.12, neo=None), 
+CloseApproach(time='2099-12-28 23:26', distance=0.06, velocity=10.86, neo=None), 
+CloseApproach(time='2099-12-29 00:59', distance=0.33, velocity=17.75, neo=None), 
+CloseApproach(time='2099-12-29 04:52', distance=0.02, velocity=6.42, neo=None), 
+CloseApproach(time='2099-12-29 09:00', distance=0.10, velocity=5.34, neo=None), 
+CloseApproach(time='2099-12-29 11:13', distance=0.15, velocity=11.30, neo=None), 
+CloseApproach(time='2099-12-29 19:03', distance=0.49, velocity=7.05, neo=None), 
+CloseApproach(time='2099-12-29 20:59', distance=0.39, velocity=32.77, neo=None), 
+CloseApproach(time='2099-12-30 05:43', distance=0.46, velocity=24.44, neo=None), 
+CloseApproach(time='2099-12-30 21:58', distance=0.08, velocity=11.29, neo=None), 
+CloseApproach(time='2099-12-30 22:32', distance=0.43, velocity=21.49, neo=None), 
+CloseApproach(time='2099-12-31 01:21', distance=0.34, velocity=22.54, neo=None), 
+CloseApproach(time='2099-12-31 05:37', distance=0.14, velocity=7.51, neo=None), 
+CloseApproach(time='2099-12-31 20:51', distance=0.13, velocity=16.68, neo=None)
+]
+
