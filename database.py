@@ -9,7 +9,6 @@ Under normal circumstances, the main module creates one NEODatabase from the
 data on NEOs and close approaches extracted by `extract.load_neos` and
 `extract.load_approaches`.
 
-You'll edit this file in Tasks 2 and 3.
 """
 
 
@@ -42,7 +41,7 @@ class NEODatabase:
         self._neos = neos
         self._approaches = approaches
 
-        # TODO: What additional auxiliary data structures will be useful?
+        
         # Create a dictionary of neo_names and neo_des for the get_neo by name and designation methods
         self.dict_of_neo_names = {}
         self.dict_of_neo_des = {}
@@ -55,7 +54,7 @@ class NEODatabase:
             self.dict_of_neo_des[ea_neo.designation] = ea_neo
             # example expected value: {'2019 M2': NearEarthObject(designation='2019 M2', name='ATLAS', diameter=nan, hazardous=False)}
 
-        # TODO: Link together the NEOs and their close approaches.
+        # Link together the NEOs and their close approaches.
         for ea_approach in self._approaches:
             if ea_approach.designation in self.dict_of_neo_des.keys():
                 ea_approach.neo = self.dict_of_neo_des[ea_approach._designation]  # assign value to neo in approach
@@ -77,7 +76,7 @@ class NEODatabase:
         :param designation: The primary designation of the NEO to search for.
         :return: The `NearEarthObject` with the desired primary designation, or `None`.
         """
-        # TODO: Fetch an NEO by its primary designation.
+        # Fetch an NEO by its primary designation.
         if designation in self.dict_of_neo_des.keys():
             return self.dict_of_neo_des[designation]
         else:
@@ -97,7 +96,7 @@ class NEODatabase:
         :param name: The name, as a string, of the NEO to search for.
         :return: The `NearEarthObject` with the desired name, or `None`.
         """
-        # TODO: Fetch an NEO by its name.
+        # Fetch an NEO by its name.
         if name in self.dict_of_neo_names.keys():
             return self.dict_of_neo_names[name]
         else:
@@ -118,7 +117,15 @@ class NEODatabase:
         :param filters: A collection of filters capturing user-specified criteria.
         :return: A stream of matching `CloseApproach` objects.
         """
-        # TODO: Generate `CloseApproach` objects that match all of the filters.
+        # Generate `CloseApproach` objects that match all of the filters.
+        
         for approach in self._approaches:
-            yield approach
+            # check each approach if passes each of the filter; skip that iteration if not 
+            filters_passed = True
+            for filter in filters:
+                if not filter(approach):
+                    filters_passed = False
+                    break
+            if filters_passed:
+                yield approach
 

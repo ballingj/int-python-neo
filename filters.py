@@ -14,9 +14,9 @@ the supplied `CloseApproach`.
 The `limit` function simply limits the maximum number of values produced by an
 iterator.
 
-You'll edit this file in Tasks 3a and 3c.
 """
 import operator
+import itertools
 
 
 class UnsupportedCriterionError(NotImplementedError):
@@ -72,6 +72,56 @@ class AttributeFilter:
         return f"{self.__class__.__name__}(op=operator.{self.op.__name__}, value={self.value})"
 
 
+class DateFilter(AttributeFilter):
+    """A subclass to filter by Date."""
+
+    @classmethod
+    def get(cls, approach):
+        """Get date from a Close Approach and
+        return the date (date.time)of the object."""
+        return approach.time.date()
+
+
+class DistanceFilter(AttributeFilter):
+    """A subclass to filter by Distance."""
+
+    @classmethod
+    def get(cls, approach):
+        """Get distance from a Close Approach and
+        return the distance(float) of the object."""
+        return approach.distance
+
+
+class VelocityFilter(AttributeFilter):
+    """A subclass to filter by Velocity."""
+
+    @classmethod
+    def get(cls, approach):
+        """Get velocity from a Close Approach and
+        return the velocity(float) of the object."""
+        return approach.velocity
+
+
+class DiameterFilter(AttributeFilter):
+    """A subclass to filter by Diameter."""
+
+    @classmethod
+    def get(cls, approach):
+        """Get diameter from a Near Earth Object and
+        return the diameter(float) of the object."""
+        return approach.neo.diameter
+
+
+class HazardousFilter(AttributeFilter):
+    """A subclass to Filter by Hazardous Flag."""
+
+    @classmethod
+    def get(cls, approach):
+        """Get hazardous from a Near Earth Object and return
+        a flag (boolean) for harzadous."""
+        return approach.neo.hazardous
+
+
 def create_filters(
         date=None, start_date=None, end_date=None,
         distance_min=None, distance_max=None,
@@ -108,8 +158,41 @@ def create_filters(
     :param hazardous: Whether the NEO of a matching `CloseApproach` is potentially hazardous.
     :return: A collection of filters for use with `query`.
     """
-    # TODO: Decide how you will represent your filters.
-    return ()
+
+    # instantiate filters and append to filters list
+    filters = []
+
+    if date:
+        filters.append(DateFilter(operator.eq, date))
+
+    if start_date:
+        filters.append(DateFilter(operator.ge, start_date))
+
+    if end_date:
+        filters.append(DateFilter(operator.le, end_date))
+
+    if distance_min:
+        filters.append(DistanceFilter(operator.ge, distance_min))
+
+    if distance_max:
+        filters.append(DistanceFilter(operator.le, distance_max))
+
+    if diameter_min:
+        filters.append(DiameterFilter(operator.ge, float(diameter_min)))
+
+    if diameter_max:
+        filters.append(DiameterFilter(operator.le, diameter_max))
+
+    if velocity_min:
+        filters.append(VelocityFilter(operator.ge, velocity_min))
+
+    if velocity_max:
+        filters.append(VelocityFilter(operator.le, velocity_max))
+
+    if hazardous is not None:
+        filters.append(HazardousFilter(operator.eq, hazardous))
+
+    return filters
 
 
 def limit(iterator, n=None):
@@ -121,5 +204,8 @@ def limit(iterator, n=None):
     :param n: The maximum number of values to produce.
     :yield: The first (at most) `n` values from the iterator.
     """
-    # TODO: Produce at most `n` values from the given iterator.
-    return iterator
+    # Produce at most `n` values from the given iterator.
+    if n == 0 or n is None:
+        return iterator
+    else:
+        return itertools.islice(iterator, n)
