@@ -16,7 +16,7 @@ iterator.
 
 """
 import operator
-import itertools
+from itertools import islice
 
 
 class UnsupportedCriterionError(NotImplementedError):
@@ -71,9 +71,27 @@ class AttributeFilter:
     def __repr__(self):
         return f"{self.__class__.__name__}(op=operator.{self.op.__name__}, value={self.value})"
 
+"""
+As an example, suppose that we wanted to build an AttributeFilter that filtered on the designation
+attribute of the NearEarthObject attached to a CloseApproach (really, we wouldn't ever need this, 
+because primary designations are unique and we already have NEODatabase.get_neo_by_designation). 
+We could define a new subclass of AttributeFilter:
+
+class DesignationFilter(AttributeFilter):
+    @classmethod
+    def get(cls, approach):
+        return approach.neo.designation
+"""
+
 
 class DateFilter(AttributeFilter):
-    """A subclass to filter by Date."""
+    """A subclass to filter by Date an attribute of approach.
+    Note:  The date, start_date, and end_date arguments supplied to create_filters are dates, but the .time
+    attribute of a CloseApproach is a datetime. You can use the .date() method on datetime objects to get
+    the corresponding moment as a date. That is, you aren't able to evaluate
+    start_date <= approach.time <= end_date but you are able to evaluate
+    start_date <= approach.time.date() <= end_date
+    """
 
     @classmethod
     def get(cls, approach):
@@ -83,7 +101,7 @@ class DateFilter(AttributeFilter):
 
 
 class DistanceFilter(AttributeFilter):
-    """A subclass to filter by Distance."""
+    """A subclass to filter by Distance-an attribute of approach."""
 
     @classmethod
     def get(cls, approach):
@@ -93,7 +111,7 @@ class DistanceFilter(AttributeFilter):
 
 
 class VelocityFilter(AttributeFilter):
-    """A subclass to filter by Velocity."""
+    """A subclass to filter by Velocity--an attribute of approach"""
 
     @classmethod
     def get(cls, approach):
@@ -103,7 +121,7 @@ class VelocityFilter(AttributeFilter):
 
 
 class DiameterFilter(AttributeFilter):
-    """A subclass to filter by Diameter."""
+    """A subclass to filter by Diameter--an attribute of neo"""
 
     @classmethod
     def get(cls, approach):
@@ -113,7 +131,8 @@ class DiameterFilter(AttributeFilter):
 
 
 class HazardousFilter(AttributeFilter):
-    """A subclass to Filter by Hazardous Flag."""
+    """A subclass to Filter by Hazardous Flag.
+    Hazardous flag is an attribute of neo"""
 
     @classmethod
     def get(cls, approach):
@@ -194,6 +213,8 @@ def create_filters(
 
     return filters
 
+    
+# ref: https://docs.python.org/3/library/itertools.html#itertools.islice
 
 def limit(iterator, n=None):
     """Produce a limited stream of values from an iterator.
@@ -208,4 +229,4 @@ def limit(iterator, n=None):
     if n == 0 or n is None:
         return iterator
     else:
-        return itertools.islice(iterator, n)
+        return islice(iterator, n)
