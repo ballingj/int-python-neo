@@ -141,13 +141,12 @@ class HazardousFilter(AttributeFilter):
         return approach.neo.hazardous
 
 
-def create_filters(
-        date=None, start_date=None, end_date=None,
-        distance_min=None, distance_max=None,
-        velocity_min=None, velocity_max=None,
-        diameter_min=None, diameter_max=None,
-        hazardous=None
-):
+def create_filters(date=None, start_date=None, end_date=None,
+                   distance_min=None, distance_max=None,
+                   velocity_min=None, velocity_max=None,
+                   diameter_min=None, diameter_max=None,
+                   hazardous=None):
+
     """Create a collection of filters from user-specified criteria.
 
     Each of these arguments is provided by the main module with a value from the
@@ -179,6 +178,9 @@ def create_filters(
     """
 
     # instantiate filters and append to filters list
+    # ref: operator https://docs.python.org/3/library/operator.html
+    # ref: operator function returns True or False: https://www.includehelp.com/python/operator-eq-function-with-examples.aspx
+
     filters = []
 
     if date:
@@ -197,7 +199,7 @@ def create_filters(
         filters.append(DistanceFilter(operator.le, distance_max))
 
     if diameter_min:
-        filters.append(DiameterFilter(operator.ge, float(diameter_min)))
+        filters.append(DiameterFilter(operator.ge, diameter_min))
 
     if diameter_max:
         filters.append(DiameterFilter(operator.le, diameter_max))

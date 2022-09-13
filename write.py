@@ -22,7 +22,7 @@ def write_to_csv(results, filename):
     # => (CloseApproach(time='2020-01-01 00:54', distance=0.02, velocity=5.62, neo=NearEarthObject(designation='2020 AY1', name=None, diameter=nan, hazardous=False)),
     # CloseApproach(time='2020-01-01 02:06', distance=0.04, velocity=7.36, neo=NearEarthObject(designation='2019 YK', name=None, diameter=nan, hazardous=False)),... 
     # for elem in results:
-    #    print(f'{datetime_to_str(elem.time)},{elem.distance},{elem.velocity},{elem.neo.designation},{elem.neo.name if not True else ""},{elem.neo.diameter if not "nan" else ""},{elem.neo.hazardous}')
+    #    print(f'{datetime_to_str(elem.time)},{elem.distance},{elem.velocity},{elem.neo.designation},{elem.neo.name if True else ""},{elem.neo.diameter if not "nan" else ""},{elem.neo.hazardous}')
 
     """Write an iterable of `CloseApproach` objects to a CSV file.
 
@@ -45,7 +45,7 @@ def write_to_csv(results, filename):
         
         writer.writeheader()
         for elem in results:
-            writer.writerow({'datetime_utc': datetime_to_str(elem.time), 'distance_au': elem.distance, 'velocity_km_s': elem.velocity, 'designation': elem.neo.designation, 'name': elem.neo.name if not True else "", 'diameter_km': elem.neo.diameter if not "nan" else "", 'potentially_hazardous': elem.neo.hazardous})
+            writer.writerow({'datetime_utc': datetime_to_str(elem.time), 'distance_au': elem.distance, 'velocity_km_s': elem.velocity, 'designation': elem.neo.designation, 'name': elem.neo.name if not None else "", 'diameter_km': elem.neo.diameter if not "nan" else "", 'potentially_hazardous': elem.neo.hazardous})
 
 
 
@@ -66,7 +66,7 @@ def write_to_json(results, filename):
     results_list = []
     for elem in results:
         results_list.append({'datetime_utc': datetime_to_str(elem.time), 'distance_au': elem.distance, 'velocity_km_s': elem.velocity, 'neo': {'designation': elem.neo.designation,
-                        'name': elem.neo.name if not True else "", 'diameter_km': elem.neo.diameter if not "nan" else float("NaN"), 'potentially_hazardous': elem.neo.hazardous}})
+                        'name': elem.neo.name if not None else "", 'diameter_km': elem.neo.diameter if not "nan" else float("NaN"), 'potentially_hazardous': elem.neo.hazardous}})
 
     with open(filename, 'w') as outfile:
         json.dump(results_list, outfile, indent=2)
