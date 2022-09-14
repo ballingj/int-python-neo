@@ -75,11 +75,10 @@ class NearEarthObject:
 
     def __str__(self):
         """Return `str(self)`."""
-        # TODO: Use this object's attributes to return a human-readable string representation.
-        # The project instructions include one possibility. Peek at the __repr__
-        # method for examples of advanced string formatting.
+       
         if self.diameter:
-            return f"A NEO {self.fullname} has a diameter of {self.diameter: .3f} km and {'is' if self.hazardous else 'is not'} potentially hazardous."
+            return f"A NEO {self.fullname} has a diameter of {self.diameter: .3f} km " \
+                   f"and {'is' if self.hazardous else 'is not'} potentially hazardous."
         else:
             return f"A NEO {self.fullname} {'is' if self.hazardous else 'is not'} potentially hazardous."
 
@@ -110,10 +109,6 @@ class CloseApproach:
 
         :param info: A dictionary of excess keyword arguments supplied to the constructor.
         """
-        # TODO: Assign information from the arguments passed to the constructor
-        # onto attributes named `_designation`, `time`, `distance`, and `velocity`.
-        # You should coerce these values to their appropriate data type and handle any edge cases.
-        # The `cd_to_datetime` function will be useful.
         self._designation = str(info["designation"])
         # TODO: Use the cd_to_datetime function for this attribute.
         self.time = cd_to_datetime(info["time"])
@@ -154,7 +149,8 @@ class CloseApproach:
         # TODO: Use this object's attributes to return a human-readable string representation.
         # The project instructions include one possibility. Peek at the __repr__
         # method for examples of advanced string formatting.
-        return f"At {self.time_str}, '{self.neo.fullname}' approaches Earth at a distance of {self.distance:.2f} au and a velocity of {self.velocity:.2f} km/s."
+        return f"At {self.time_str}, '{self.neo.fullname}' approaches Earth at a distance of " \
+               f"{self.distance:.2f} au and a velocity of {self.velocity:.2f} km/s."
 
     def __repr__(self):
         """Return `repr(self)`, a computer-readable string representation of this object."""

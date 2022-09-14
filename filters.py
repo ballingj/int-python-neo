@@ -72,15 +72,18 @@ class AttributeFilter:
         return f"{self.__class__.__name__}(op=operator.{self.op.__name__}, value={self.value})"
 
 """
-As an example, suppose that we wanted to build an AttributeFilter that filtered on the designation
-attribute of the NearEarthObject attached to a CloseApproach (really, we wouldn't ever need this, 
-because primary designations are unique and we already have NEODatabase.get_neo_by_designation). 
-We could define a new subclass of AttributeFilter:
+The filters below are way too complicated, but here is the logic as I worked on it:
 
-class DesignationFilter(AttributeFilter):
-    @classmethod
-    def get(cls, approach):
-        return approach.neo.designation
+The AttributeFilter accepts the following values in __init__:
+  op  = supplied as operator.eq/le/ge
+  value = the value to compare against--supplied by the user (i.e. date, diameter, distance, velocity, hazardous)
+
+1) each instance of the AttributeFilter job is to grab the value from a particular approach : __get__ method
+2) another job is to __call_ the method to perform the operation: self.op(self.get(approach) = left side & self.value = right side of operator.le/ge/eq
+3) compare those two valuee via a class call, example line 188
+        DateFilter(operator.eq, date)
+4) store that in an array/list with collection called filter        
+
 """
 
 
@@ -178,8 +181,9 @@ def create_filters(date=None, start_date=None, end_date=None,
     """
 
     # instantiate filters and append to filters list
-    # ref: operator https://docs.python.org/3/library/operator.html
-    # ref: operator function returns True or False: https://www.includehelp.com/python/operator-eq-function-with-examples.aspx
+    # ref: https://docs.python.org/3/library/operator.html
+    # ref: https://www.includehelp.com/python/operator-eq-function-with-examples.aspx
+    # operator function returns True or False:
 
     filters = []
 

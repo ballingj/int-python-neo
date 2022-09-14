@@ -40,7 +40,6 @@ class NEODatabase:
         """
         self._neos = neos
         self._approaches = approaches
-
         
         # Create a dictionary of neo_names and neo_des for the get_neo by name and designation methods
         self.dict_of_neo_names = {}
@@ -50,18 +49,17 @@ class NEODatabase:
         for ea_neo in self._neos:
             if ea_neo.name:
                 self.dict_of_neo_names[ea_neo.name] = ea_neo
-                # example expected value: {'ATLAS': NearEarthObject(designation='2019 M2', name='ATLAS', diameter=nan, hazardous=False)}
+                # example expected value: 
+                # {'ATLAS': NearEarthObject(designation='2019 M2', name='ATLAS', diameter=nan, hazardous=False)}
             self.dict_of_neo_des[ea_neo.designation] = ea_neo
-            # example expected value: {'2019 M2': NearEarthObject(designation='2019 M2', name='ATLAS', diameter=nan, hazardous=False)}
+            # example expected value: 
+            # {'2019 M2': NearEarthObject(designation='2019 M2', name='ATLAS', diameter=nan, hazardous=False)}
 
         # Link together the NEOs and their close approaches.
         for ea_approach in self._approaches:
             if ea_approach.designation in self.dict_of_neo_des.keys():
-                ea_approach.neo = self.dict_of_neo_des[ea_approach._designation]  # assign value to neo in approach
+                ea_approach.neo = self.dict_of_neo_des[ea_approach._designation]  # associate neo to approach
                 self.dict_of_neo_des[ea_approach._designation].approaches.append(ea_approach)  
-
-           
-
 
     def get_neo_by_designation(self, designation):
         """Find and return an NEO by its primary designation.
@@ -102,7 +100,6 @@ class NEODatabase:
         else:
             return None
         
-
     def query(self, filters=()):
         """Query close approaches to generate those that match a collection of filters.
 
