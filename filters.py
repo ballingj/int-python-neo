@@ -38,6 +38,7 @@ class AttributeFilter:
     Concrete subclasses can override the `get` classmethod to provide custom
     behavior to fetch a desired attribute from the given `CloseApproach`.
     """
+
     def __init__(self, op, value):
         """Construct a new `AttributeFilter` from an binary predicate and a reference value.
 
@@ -69,28 +70,16 @@ class AttributeFilter:
         raise UnsupportedCriterionError
 
     def __repr__(self):
+        """Return `repr(self)`, a computer-readable string representation of this object."""
         return f"{self.__class__.__name__}(op=operator.{self.op.__name__}, value={self.value})"
-
-"""
-The filters below are way too complicated, but here is the logic as I worked on it:
-
-The AttributeFilter accepts the following values in __init__:
-  op  = supplied as operator.eq/le/ge
-  value = the value to compare against--supplied by the user (i.e. date, diameter, distance, velocity, hazardous)
-
-1) each instance of the AttributeFilter job is to grab the value from a particular approach : __get__ method
-2) another job is to __call_ the method to perform the operation: self.op(self.get(approach) = left side & self.value = right side of operator.le/ge/eq
-3) compare those two valuee via a class call, example line 188
-        DateFilter(operator.eq, date)
-4) store that in an array/list with collection called filter        
-
-"""
 
 
 class DateFilter(AttributeFilter):
     """A subclass to filter by Date an attribute of approach.
-    Note:  The date, start_date, and end_date arguments supplied to create_filters are dates, but the .time
-    attribute of a CloseApproach is a datetime. You can use the .date() method on datetime objects to get
+
+    Note:  The date, start_date, and end_date arguments supplied to create_filters
+    are dates, but the .time attribute of a CloseApproach is a datetime. You can use
+    the .date() method on datetime objects to get
     the corresponding moment as a date. That is, you aren't able to evaluate
     start_date <= approach.time <= end_date but you are able to evaluate
     start_date <= approach.time.date() <= end_date
@@ -98,9 +87,24 @@ class DateFilter(AttributeFilter):
 
     @classmethod
     def get(cls, approach):
-        """Get date from a Close Approach and
-        return the date (date.time)of the object."""
+        """Get date from a Close Approach and return the date (date.time)of the object."""
         return approach.time.date()
+
+    """
+    These filters are way too complicated, but here is the logic as I worked on it:
+    The AttributeFilter accepts the following values in __init__:
+
+    op  = supplied as operator.eq/le/ge
+    value = the value to compare against--supplied by the user (i.e. date,
+    diameter, distance, velocity, hazardous)
+
+    1) each instance of the AttributeFilter job is to grab the value from a particular
+    approach : __get__ method
+    2) another job is to __call_ the method to perform the operation: self.op(self.get(approach) =
+    left side & self.value = right side of operator.le/ge/eq
+    3) compare those two valuee via a class call, example line 188 DateFilter(operator.eq, date)
+    4) store that in an array/list with collection called filter
+    """
 
 
 class DistanceFilter(AttributeFilter):
@@ -108,39 +112,34 @@ class DistanceFilter(AttributeFilter):
 
     @classmethod
     def get(cls, approach):
-        """Get distance from a Close Approach and
-        return the distance(float) of the object."""
+        """Get distance from a Close Approach and return the distance(float) of the object."""
         return approach.distance
 
 
 class VelocityFilter(AttributeFilter):
-    """A subclass to filter by Velocity--an attribute of approach"""
+    """A subclass to filter by Velocity--an attribute of approach."""
 
     @classmethod
     def get(cls, approach):
-        """Get velocity from a Close Approach and
-        return the velocity(float) of the object."""
+        """Get velocity from a Close Approach and return the velocity(float) of the object."""
         return approach.velocity
 
 
 class DiameterFilter(AttributeFilter):
-    """A subclass to filter by Diameter--an attribute of neo"""
+    """A subclass to filter by Diameter--an attribute of neo."""
 
     @classmethod
     def get(cls, approach):
-        """Get diameter from a Near Earth Object and
-        return the diameter(float) of the object."""
+        """Get diameter from a Near Earth Object and return the diameter(float) of the object."""
         return approach.neo.diameter
 
 
 class HazardousFilter(AttributeFilter):
-    """A subclass to Filter by Hazardous Flag.
-    Hazardous flag is an attribute of neo"""
+    """A subclass to Filter by Hazardous Flag. Hazardous flag is an attribute of neo."""
 
     @classmethod
     def get(cls, approach):
-        """Get hazardous from a Near Earth Object and return
-        a flag (boolean) for harzadous."""
+        """Get hazardous from a Near Earth Object and return a flag (boolean) for harzadous."""
         return approach.neo.hazardous
 
 
@@ -149,7 +148,6 @@ def create_filters(date=None, start_date=None, end_date=None,
                    velocity_min=None, velocity_max=None,
                    diameter_min=None, diameter_max=None,
                    hazardous=None):
-
     """Create a collection of filters from user-specified criteria.
 
     Each of these arguments is provided by the main module with a value from the
@@ -179,7 +177,6 @@ def create_filters(date=None, start_date=None, end_date=None,
     :param hazardous: Whether the NEO of a matching `CloseApproach` is potentially hazardous.
     :return: A collection of filters for use with `query`.
     """
-
     # instantiate filters and append to filters list
     # ref: https://docs.python.org/3/library/operator.html
     # ref: https://www.includehelp.com/python/operator-eq-function-with-examples.aspx
@@ -219,7 +216,7 @@ def create_filters(date=None, start_date=None, end_date=None,
 
     return filters
 
-    
+
 # ref: https://docs.python.org/3/library/itertools.html#itertools.islice
 
 def limit(iterator, n=None):

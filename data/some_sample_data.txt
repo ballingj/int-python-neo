@@ -46,3 +46,18 @@ CloseApproach(time='2099-12-31 05:37', distance=0.14, velocity=7.51, neo=None),
 CloseApproach(time='2099-12-31 20:51', distance=0.13, velocity=16.68, neo=None)
 ]
 
+
+
+At 2020-01-01 00:54, '2020 AY1' approaches Earth at a distance of 0.02 au and a velocity of 5.62 km/s.
+At 2020-01-01 02:06, '2019 YK' approaches Earth at a distance of 0.04 au and a velocity of 7.36 km/s.
+At 2020-01-01 03:31, '2013 EC20' approaches Earth at a distance of 0.16 au and a velocity of 2.79 km/s.
+At 2020-01-01 07:18, '2020 AM1' approaches Earth at a distance of 0.16 au and a velocity of 4.15 km/s.
+At 2020-01-01 08:44, '2016 EF195' approaches Earth at a distance of 0.28 au and a velocity of 17.55 km/s.
+At 2020-01-01 11:13, '2020 AP3' approaches Earth at a distance of 0.02 au and a velocity of 5.19 km/s.
+At 2020-01-01 14:36, '2011 YE40' approaches Earth at a distance of 0.06 au and a velocity of 12.79 km/s.
+At 2020-01-01 14:55, '2019 WE5' approaches Earth at a distance of 0.13 au and a velocity of 5.00 km/s.
+At 2020-01-01 15:16, '2020 AE2' approaches Earth at a distance of 0.24 au and a velocity of 13.30 km/s.
+At 2020-01-01 21:01, '2020 JU' approaches Earth at a distance of 0.13 au and a velocity of 6.65 km/s.
+At 2020-01-01 21:18, '2020 AN2' approaches Earth at a distance of 0.02 au and a velocity of 15.35 km/s.
+At 2020-01-01 21:59, '2011 HS60' approaches Earth at a distance of 0.20 au and a velocity of 17.77 km/s.
+At 2020-01

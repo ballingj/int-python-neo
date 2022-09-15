@@ -19,14 +19,14 @@ from helpers import cd_to_datetime, datetime_to_str
 def write_to_csv(results, filename):
     # the next five lines were used for debug lines as part of development
     # print(results)
-    # # ex output: (CloseApproach(time='2020-01-01 00:54', distance=0.02, velocity=5.62, 
-    #             neo=NearEarthObject(designation='2020 AY1', name=None, diameter=nan, hazardous=False)),
-    #    
+    # # ex output: (CloseApproach(time='2020-01-01 00:54', distance=0.02,
+    #               velocity=5.62, neo=NearEarthObject(designation='2020 AY1',
+    #               name=None, diameter=nan, hazardous=False)),..
+    #
     # for elem in results:
     #    print(f'{datetime_to_str(elem.time)},{elem.distance},{elem.velocity}, ' \
     #          f'{elem.neo.designation},{elem.neo.name if True else ""}, ' \
     #          f'{elem.neo.diameter if not "nan" else ""},{elem.neo.hazardous}')
-
     """Write an iterable of `CloseApproach` objects to a CSV file.
 
     The precise output specification is in `README.md`. Roughly, each output row
@@ -45,16 +45,15 @@ def write_to_csv(results, filename):
 
     with open(filename, 'w') as outfile:
         writer = csv.DictWriter(outfile, fieldnames=fieldnames)
-        
         writer.writeheader()
         for elem in results:
             writer.writerow(
-                {'datetime_utc': datetime_to_str(elem.time), 
-                'distance_au': elem.distance, 'velocity_km_s': elem.velocity, 
-                'designation': elem.neo.designation, 
-                'name': elem.neo.name if not None else "", 
-                'diameter_km': elem.neo.diameter if not "nan" else "", 
-                'potentially_hazardous': elem.neo.hazardous})
+                {'datetime_utc': datetime_to_str(elem.time),
+                    'distance_au': elem.distance, 'velocity_km_s': elem.velocity,
+                    'designation': elem.neo.designation,
+                    'name': elem.neo.name if not None else "",
+                    'diameter_km': elem.neo.diameter if not "nan" else "",
+                    'potentially_hazardous': elem.neo.hazardous})
 
 
 def write_to_json(results, filename):
@@ -75,13 +74,13 @@ def write_to_json(results, filename):
     results_list = []
     for elem in results:
         results_list.append(
-            {'datetime_utc': datetime_to_str(elem.time), 
-            'distance_au': elem.distance, 
-            'velocity_km_s': elem.velocity, 
-            'neo': {'designation': elem.neo.designation,
-            'name': elem.neo.name if not None else "", 
-            'diameter_km': elem.neo.diameter if not "nan" else float("NaN"), 
-            'potentially_hazardous': elem.neo.hazardous}})
+            {'datetime_utc': datetime_to_str(elem.time),
+                'distance_au': elem.distance,
+                'velocity_km_s': elem.velocity,
+                'neo': {'designation': elem.neo.designation,
+                        'name': elem.neo.name if not None else "",
+                        'diameter_km': elem.neo.diameter if not "nan" else float("NaN"),
+                        'potentially_hazardous': elem.neo.hazardous}})
 
     with open(filename, 'w') as outfile:
         json.dump(results_list, outfile, indent=2)
